@@ -37,11 +37,11 @@ This API project is built on the basis of the proposed challenge.
 
 ## Usage:
 
-1. Create a new user:
+1. Create a new user (if successfully it will return a bearer token):
 
 `curl -X POST -d "user[username]=new_user&user[password]=Password123&user[password_confirmation]=Password123" http://localhost:3000/users`
 
-2. Login
+2. Login (if you don't have a bearer token yet)
 
 `curl -X POST -d "user[username]=new_user&user[password]=Password123" http://localhost:3000/login`
 

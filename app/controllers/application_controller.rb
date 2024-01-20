@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+
   def normalize_json(data, errors = [])
     { data: data, errors: errors }
   end
@@ -18,5 +19,9 @@ class ApplicationController < ActionController::API
     rescue JWT::DecodeError
       nil
     end
+  end
+
+  def encode_token(payload)
+    JWT.encode(payload, Rails.application.secrets.secret_key_base)
   end
 end
