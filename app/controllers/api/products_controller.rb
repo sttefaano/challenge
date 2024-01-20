@@ -1,25 +1,24 @@
-module Api
-  class ProductsController < ApplicationController
-    before_action :authenticate_user, only: [:create, :index]
+class Api::ProductsController < ApplicationController
+  before_action :authenticate_user, only: [:create, :index]
 
-    def index
-      @products = Product.all
-      render json: normalize_json(@products)
+  def index
+    @products = Product.all
+    render json: normalize_json(@products)
+  end
+
+  def create
+    product = Product.new(product_params)
+    if product.valid?
+      ProductCreationWorker.perform_async(product_params.as_json)
+      render json: normalize_json({ message: 'Product creation enqueued successfully.' }), status: :accepted
+    else
+      render json: normalize_json({ message: 'There was an error creating the product.'}, { error: product.errors }), status: :unprocessable_entity
     end
+  end
 
-    def create
-      @product = Product.new(product_params)
-      if @product.save
-        render json: normalize_json(@product), status: :created
-      else
-        render json: normalize_json("There was an error creating the product.", @product.errors), status: :unprocessable_entity
-      end
-    end
+  private
 
-    private
-
-    def product_params
-      params.require(:product).permit(:name)
-    end
+  def product_params
+    params.require(:product).permit(:name)
   end
 end
