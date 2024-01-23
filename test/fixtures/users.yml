@@ -1,8 +1,10 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+<% user = User.new(password: "123ABc", password_confirmation: "123ABc")%>
+
 one:
-  username: MyString
-  password_digest: MyString
+  username: user2
+  password_digest: <%= user.password_digest %>
 
 two:
   username: MyString
