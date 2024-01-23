@@ -3,7 +3,7 @@ class Api::ProductsController < ApplicationController
 
   def index
     @products = Product.all
-    render json: normalize_json(@products)
+    render json: normalize_json({ products: @products })
   end
 
   def create
