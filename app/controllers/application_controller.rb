@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::API
+  require 'jwt'
+
+  protected
 
   def normalize_json(data, errors = [])
     { data: data, errors: errors }
@@ -21,7 +24,7 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def encode_token(payload)
-    JWT.encode(payload, Rails.application.secrets.secret_key_base)
+  def encode_token(data)
+    JWT.encode(data, Rails.application.secrets.secret_key_base)
   end
 end
