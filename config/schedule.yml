@@ -1,0 +1,4 @@
+product_sync_job:
+  cron: "*/5 * * * *"
+  class: "ProductSyncWorker"
+  queue: default
