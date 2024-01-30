@@ -2,10 +2,9 @@ class Api::AuthController < ApplicationController
 
   def authenticate
     user = User.find_by(username: auth_params[:username])
-
     if user && user.authenticate(auth_params[:password])
       token = encode_token(user_id: user.id)
-    render json: normalize_json({ bearer_token: token })
+      render json: normalize_json({ bearer_token: token })
     else
       render json: normalize_json({ message: "Error when trying authenticate." }, { error: 'Invalid username or password' }), status: :unauthorized
     end
@@ -14,6 +13,6 @@ class Api::AuthController < ApplicationController
   private
 
   def auth_params
-    params.permit(:username, :password)
+    params.require(:auth).permit(:username, :password)
   end
 end
