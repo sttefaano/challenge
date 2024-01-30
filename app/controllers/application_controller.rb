@@ -11,7 +11,7 @@ class ApplicationController < ActionController::API
     token = request.headers['Authorization']
     token = token.split(' ').last if token
     user_id = decode_token(token)
-    render json: normalize_json([], { error: 'Unauthorized' }), status: :unauthorized unless user_id
+    render json: normalize_json([], { error: 'Unauthorized' }), status: :unauthorized unless User.find(user_id)
   end
 
   def decode_token(token)
